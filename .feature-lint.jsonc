@@ -1,0 +1,54 @@
+{
+  "$schema": "https://raw.githubusercontent.com/feature-lint/feature-lint/pages/schema/feature-lint-v0.0.15.schema.json",
+  "rootDir": "./src/features",
+  "featureTypes": {
+    "react": {
+      "featureNameMatcher": "react-.*",
+      "buildingBlocks": {
+        "components": {},
+        "wired": {},
+        "i18n": {},
+        "controllers": {}
+      }
+    },
+    "domain": {
+      "featureNameMatcher": "domain-.*",
+       "buildingBlocks": {
+         "inbound": {
+           "rules": [{
+              "name": "dependents",
+              "criteria": ["!*@components"]
+             }]
+         },
+         "interactions": {
+           "rules": [{
+             "name": "dependencies",
+             "criteria": ["!*@outbound-model"]
+           }]
+         },
+         "models": {
+           "rules": [{
+             "name": "dependencies",
+             "criteria": ["&"]
+           }]
+         },
+         "outbound": {
+           "rules": [
+             {
+               "name": "dependencies",
+               "criteria": ["@models", "@outbound-model", "!@interactions"]
+             }
+           ]
+         },
+         "outbound-model": {
+           "rules": [
+             {
+               "name": "dependencies",
+               "criteria": ["@models", "!@interactions", "!@outbound"]
+             }
+           ]
+         }
+       }
+    }
+  }
+}
