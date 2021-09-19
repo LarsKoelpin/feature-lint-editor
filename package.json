@@ -2,6 +2,7 @@
   "name": "feature-lint-editor",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://larskoelpin.github.io/feature-lint-editor",
   "dependencies": {
     "@mdi/js": "^6.1.95",
     "@mdi/react": "^1.5.0",
