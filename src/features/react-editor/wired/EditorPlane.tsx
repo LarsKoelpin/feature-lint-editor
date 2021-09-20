@@ -7,7 +7,7 @@ import { Tool } from "../../domain-editor/models/editor-core/Tool";
 import { useDrawingState } from "../controllers/useDrawingState";
 
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
-import { createQueryBuildingBlocks } from "../../domain-editor/interactions/query-buildingBlocks";
+import { createQueryFigures } from "../../domain-editor/interactions/query-figures";
 import { createUpdateBuildingBlock } from "../../domain-editor/interactions/update-buildingblock";
 import { createPlaceDependencyRule } from "../../domain-editor/interactions/place-dependency-rule";
 import { createSelectBuildingBlockForRule } from "../../domain-editor/interactions/building-block-selection";
@@ -46,18 +46,18 @@ export const EditorPlane = (props: Props) => {
 
   const closeSelection = createCloseSelection({
     tool: () => tool.currentTool,
-    onDetails: (d) => tool.setDetails(d ? BuildingBlockFigureId(d.id) : null),
+    onDetails: (d) => tool.setDetails(d?.id || null),
   });
   const toolBuildingBlockInteraction = createSelectBuildingBlockForRule({
     onToolUpdated: (t: Tool) => tool.setCurrentTool(t),
-    onSelectedBuildingBlock: (bb) =>
-      tool.setDetails(BuildingBlockFigureId(bb.id)),
+    onSelectedFigure: (bb) => tool.setDetails(bb?.id || null),
     placeDependencyRule,
     tool: () => tool.currentTool,
   });
 
-  const queryBuildingBlocks = createQueryBuildingBlocks(
-    figures.buildingBlockFigures
+  const queryBuildingBlocks = createQueryFigures(
+    figures.buildingBlockFigures,
+    figures.featureTypeFigures
   );
 
   const updateBuildingBlock = createUpdateBuildingBlock(
@@ -87,7 +87,7 @@ export const EditorPlane = (props: Props) => {
         queryBuildingBlocks={queryBuildingBlocks}
         placeFeature={placeFeature}
         placeBuildingBlock={placeBuildingBlock}
-        selectRule={toolBuildingBlockInteraction}
+        onSelectFigure={toolBuildingBlockInteraction}
         tool={tool}
         figures={figures}
       />
@@ -95,7 +95,7 @@ export const EditorPlane = (props: Props) => {
         <Details
           query={queryBuildingBlocks}
           onClose={closeSelection}
-          buildingBlockId={tool.details}
+          figureId={tool.details}
         />
       ) : null}
     </Plane>

@@ -47,7 +47,7 @@ export const ToolBar = ({ tool, selectTool }: Props) => {
         }
       >
         <Icon path={mdiRelationManyToOne} size={ICON_SIZE} color="grey" />
-        Rule
+        Allow Import
       </MenuEntry>
     </SidebarContainer>
   );

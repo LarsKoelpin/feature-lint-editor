@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { MenuEntry } from "./MenuEntry";
 import Icon from "@mdi/react";
-import { mdiContentSave, mdiUpload } from "@mdi/js";
+import { mdiContentSave } from "@mdi/js";
 import { ConvertToFeatureLintJson } from "../../../domain-converter/interactions/convertToFeatureLintJson";
 
 type Props = {
@@ -12,10 +12,6 @@ export const TopBar = ({ convertToJson }: Props) => {
   return (
     <TopContainer>
       <MenuEntry active={false} onClick={convertToJson}>
-        <Icon path={mdiUpload} size={1.1} color="grey" />
-        Load
-      </MenuEntry>
-      <MenuEntry active={false}>
         <Icon path={mdiContentSave} size={1.1} color="grey" />
         Save
       </MenuEntry>

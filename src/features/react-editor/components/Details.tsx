@@ -1,15 +1,15 @@
 import * as React from "react";
 import styled from "styled-components";
-import { BuildingBlockFigureId } from "../../domain-editor/models/editor-core/BuildingBlockFigure";
-import { QueryBuildingBlocks } from "../../domain-editor/interactions/query-buildingBlocks";
+import { QueryFigures } from "../../domain-editor/interactions/query-figures";
+import { BuildingBlockDetails } from "./figure-details/BuildingBlockDetails";
 
 type Props = {
-  buildingBlockId: BuildingBlockFigureId;
-  query: QueryBuildingBlocks;
+  figureId: string;
+  query: QueryFigures;
   onClose: () => any;
 };
-export const Details = ({ buildingBlockId, query, onClose }: Props) => {
-  const figure = query.buildingBlockById(buildingBlockId);
+export const Details = ({ figureId, query, onClose }: Props) => {
+  const figure = query.figureById(figureId);
   if (!figure) {
     return null;
   }
@@ -18,9 +18,14 @@ export const Details = ({ buildingBlockId, query, onClose }: Props) => {
       <Headline>
         <h2>Details</h2>
       </Headline>
-      <h2>{figure.bbName}</h2>
-      {figure.id}
-      <button onClick={onClose}>Close</button>
+      {(() => {
+        switch (figure.type) {
+          case "BuildingBlockFigure":
+            return <BuildingBlockDetails figure={figure} onClose={onClose} />;
+          case "FeatureFigure":
+            return <div>Hello</div>;
+        }
+      })()}
     </DetailsContainer>
   );
 };

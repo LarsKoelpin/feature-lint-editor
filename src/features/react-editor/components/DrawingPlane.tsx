@@ -10,7 +10,7 @@ import { UiFeature } from "./figures/UIFeature";
 import { UiBuildingBlockFigure } from "./figures/UIBuildingBlockFigure";
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
 import { BuildingBlockFigure } from "../../domain-editor/models/editor-core/BuildingBlockFigure";
-import { QueryBuildingBlocks } from "../../domain-editor/interactions/query-buildingBlocks";
+import { QueryFigures } from "../../domain-editor/interactions/query-figures";
 import { isWaitingForSecondSelection } from "../../domain-editor/models/editor-core/RuleTool";
 import { UpdateBuildingBlock } from "../../domain-editor/interactions/update-buildingblock";
 import { UiDependencyRule } from "./figures/UIDependencyRule";
@@ -18,23 +18,24 @@ import { PlaceBuildingblock } from "../../domain-editor/interactions/place-build
 import styled from "styled-components";
 import { NewFeatureTypeFigureId } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigureId";
 import { UpdateFeatureType } from "../../domain-editor/interactions/update-featuretype";
+import { SelectionAction } from "../../domain-editor/interactions/building-block-selection";
 
 type Props = {
   tool: ToolState;
   figures: Figures;
   placeFeature: (f: FeatureTypeFigure) => any;
-  queryBuildingBlocks: QueryBuildingBlocks;
+  queryBuildingBlocks: QueryFigures;
   updateBuildingBlock: UpdateBuildingBlock;
   updateFeatureType: UpdateFeatureType;
   placeBuildingBlock: PlaceBuildingblock;
-  selectRule: (bb: BuildingBlockFigure) => any;
+  onSelectFigure: SelectionAction;
 };
 export const DrawingPlane = (props: Props) => {
   const {
     figures,
     tool,
     updateBuildingBlock,
-    selectRule,
+    onSelectFigure,
     queryBuildingBlocks,
     updateFeatureType,
   } = props;
@@ -58,7 +59,6 @@ export const DrawingPlane = (props: Props) => {
         }}
         onClick={(e) => {
           const screenPos = getPos(e);
-          console.log("CLICK ON");
           clickListener(props, { x: screenPos.x, y: screenPos.y });
         }}
       >
@@ -75,6 +75,7 @@ export const DrawingPlane = (props: Props) => {
         <Layer>
           {figures.featureTypeFigures.map((x) => (
             <UiFeature
+              onSelect={onSelectFigure}
               key={x.id}
               figure={x}
               updateFeatureType={updateFeatureType}
@@ -85,7 +86,7 @@ export const DrawingPlane = (props: Props) => {
               key={x.id}
               updateBuildingBlock={updateBuildingBlock}
               figure={x}
-              onSelect={selectRule}
+              onSelect={onSelectFigure}
             />
           ))}
           {isWaitingForSecondSelection(currentTool) && tool.ruleGhost ? (

@@ -13,8 +13,8 @@ export const createPlaceBuildingBlock =
     const created = BuildingBlockFigure({
       id: NewBuildingBlockFigureId(),
       type: "BuildingBlockFigure",
-      width: 50 * 2,
-      height: 50,
+      width: 75 * 2,
+      height: 75,
       x: x,
       y: y,
       bbName: "unamed",
