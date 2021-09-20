@@ -18,6 +18,7 @@ import { BuildingBlockFigureId } from "../../domain-editor/models/editor-core/Bu
 import { createConvertToFeatureLint } from "../../domain-converter/interactions/convertToFeatureLintJson";
 import { TopBar } from "../components/hud/TopBar";
 import { createUpdateFeatureType } from "../../domain-editor/interactions/update-featuretype";
+import { SaveDialog } from "../components/hud/save-dialog/SaveDialog";
 
 type Props = {};
 export const EditorPlane = (props: Props) => {
@@ -71,10 +72,10 @@ export const EditorPlane = (props: Props) => {
   });
 
   const convertToJson = createConvertToFeatureLint({
+    query: queryBuildingBlocks,
     buildingBlocks: () => figures.buildingBlockFigures,
     dependencyRules: () => figures.rules,
     featureTypes: () => figures.featureTypeFigures,
-    onConfig: (cfg) => alert(JSON.stringify(cfg)),
   });
 
   return (

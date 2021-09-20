@@ -1,21 +1,27 @@
 import { DependencyRuleFigure } from "../../domain-editor/models/editor-core/dependency-rule/DependencyRuleFigure";
-import { BuildingBlockFigure } from "../../domain-editor/models/editor-core/BuildingBlockFigure";
+import {
+  BuildingBlockFigure,
+  BuildingBlockFigureId,
+} from "../../domain-editor/models/editor-core/BuildingBlockFigure";
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
 import {
   GeometryRect,
   intersectRect,
   toGeometryRect,
 } from "../../domain-editor/models/editor-core/figure/geometry";
+import { all } from "ramda";
+import { QueryFigures } from "../../domain-editor/interactions/query-figures";
+import { isBuildingBlock } from "../../domain-editor/models/editor-core/figure/Figure";
 
 type StateDeps = {
   dependencyRules: () => DependencyRuleFigure[];
   buildingBlocks: () => BuildingBlockFigure[];
   featureTypes: () => FeatureTypeFigure[];
-  onConfig: (cfg: any) => any;
+  query: QueryFigures;
 };
 
 export const createConvertToFeatureLint =
-  ({ dependencyRules, buildingBlocks, featureTypes, onConfig }: StateDeps) =>
+  ({ dependencyRules, buildingBlocks, featureTypes, query }: StateDeps) =>
   () => {
     const allFeatureTypes: { [featurName: string]: any } = {};
     for (const f of featureTypes()) {
@@ -24,9 +30,38 @@ export const createConvertToFeatureLint =
       for (const bb of buildingBlocks()) {
         const bbRect: GeometryRect = toGeometryRect(bb);
         if (intersectRect(bbRect, featureRect)) {
+          let depCriteria: string[] = [];
+          for (const allowedImport of dependencyRules()) {
+            const bb1 = query.figureById(
+              BuildingBlockFigureId(allowedImport.from)
+            );
+            const bb2 = query.figureById(
+              BuildingBlockFigureId(allowedImport.to)
+            );
+
+            if (!bb1 || !bb2) {
+              throw new Error(
+                "Trying to create a dep rule from " +
+                  bb1 +
+                  " to " +
+                  bb2 +
+                  " but one of them is null"
+              );
+            }
+            if (isBuildingBlock(bb2)) {
+              depCriteria = [...depCriteria, "@" + bb2.bbName];
+            }
+          }
           allFeatureTypes[f.name] = {
             ...allFeatureTypes[f.name],
-            [bb.bbName]: {},
+            [bb.bbName]: {
+              rules: [
+                {
+                  name: "dependencies",
+                  criteria: depCriteria,
+                },
+              ],
+            },
           };
         }
       }
@@ -37,8 +72,7 @@ export const createConvertToFeatureLint =
       rootDir: "./src/features",
       featureTypes: allFeatureTypes,
     };
-    console.log(created);
-    onConfig(created);
+    return created;
   };
 export type ConvertToFeatureLintJson = ReturnType<
   typeof createConvertToFeatureLint

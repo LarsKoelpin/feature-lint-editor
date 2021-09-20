@@ -4,14 +4,25 @@ import { MenuEntry } from "./MenuEntry";
 import Icon from "@mdi/react";
 import { mdiContentSave } from "@mdi/js";
 import { ConvertToFeatureLintJson } from "../../../domain-converter/interactions/convertToFeatureLintJson";
+import { useState } from "react";
+import { SaveDialog } from "./save-dialog/SaveDialog";
 
 type Props = {
   convertToJson: ConvertToFeatureLintJson;
 };
 export const TopBar = ({ convertToJson }: Props) => {
+  const [featureLintConfig, setShowDialog] = useState<string>("");
   return (
     <TopContainer>
-      <MenuEntry active={false} onClick={convertToJson}>
+      {featureLintConfig ? (
+        <SaveDialog text={featureLintConfig} close={() => setShowDialog("")} />
+      ) : null}
+      <MenuEntry
+        active={false}
+        onClick={() => {
+          setShowDialog(JSON.stringify(convertToJson()));
+        }}
+      >
         <Icon path={mdiContentSave} size={1.1} color="grey" />
         Save
       </MenuEntry>
