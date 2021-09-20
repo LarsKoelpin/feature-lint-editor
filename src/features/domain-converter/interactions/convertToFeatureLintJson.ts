@@ -22,6 +22,8 @@ type StateDeps = {
 export const createConvertToFeatureLint =
   ({ dependencyRules, buildingBlocks, featureTypes, query }: StateDeps) =>
   () => {
+    console.log("HELLO");
+    console.log("Found ", dependencyRules());
     const allFeatureTypes: { [featurName: string]: any } = {};
     for (const f of featureTypes()) {
       const featureRect: GeometryRect = toGeometryRect(f);
@@ -37,6 +39,11 @@ export const createConvertToFeatureLint =
             const bb2 = query.figureById(
               BuildingBlockFigureId(allowedImport.to)
             );
+
+            const isRuleRelevantForBb = bb1?.id === bb.id;
+            if (!isRuleRelevantForBb) {
+              continue;
+            }
 
             if (!bb1 || !bb2) {
               throw new Error(
