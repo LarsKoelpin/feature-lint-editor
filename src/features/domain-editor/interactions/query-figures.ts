@@ -1,4 +1,4 @@
-import { BuildingBlockFigure } from "../models/editor-core/BuildingBlockFigure";
+import { BuildingBlockFigure } from "../models/editor-core/building-block-figure/BuildingBlockFigure";
 import { FeatureTypeFigure } from "../models/editor-core/feature-type-figure/FeatureTypeFigure";
 
 export const createQueryFigures = (

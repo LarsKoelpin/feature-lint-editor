@@ -22,7 +22,7 @@ export const Details = ({ figureId, query, onClose }: Props) => {
         switch (figure.type) {
           case "BuildingBlockFigure":
             return <BuildingBlockDetails figure={figure} onClose={onClose} />;
-          case "FeatureFigure":
+          case "FeatureTypeFigure":
             return <div>Hello</div>;
         }
       })()}

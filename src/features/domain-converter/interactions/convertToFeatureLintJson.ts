@@ -2,7 +2,7 @@ import { DependencyRuleFigure } from "../../domain-editor/models/editor-core/dep
 import {
   BuildingBlockFigure,
   BuildingBlockFigureId,
-} from "../../domain-editor/models/editor-core/BuildingBlockFigure";
+} from "../../domain-editor/models/editor-core/building-block-figure/BuildingBlockFigure";
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
 import {
   GeometryRect,

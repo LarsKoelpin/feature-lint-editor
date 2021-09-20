@@ -1,23 +1,23 @@
 import * as React from "react";
-import { Text, Rect, Group } from "react-konva";
+import { Text, Rect, Group, Transformer } from "react-konva";
 import { Html } from "react-konva-utils";
-import { BuildingBlockFigure } from "../../../domain-editor/models/editor-core/BuildingBlockFigure";
+import { BuildingBlockFigure } from "../../../domain-editor/models/editor-core/building-block-figure/BuildingBlockFigure";
 import { getElementPos } from "../getPos";
-import { UpdateBuildingBlock } from "../../../domain-editor/interactions/update-buildingblock";
 import { useRef, useState } from "react";
 import Icon from "@mdi/react";
 import { mdiCog } from "@mdi/js";
 import { SelectionAction } from "../../../domain-editor/interactions/building-block-selection";
+import { UpdateFigure } from "../../../domain-editor/interactions/update-figure";
 
 type Props = {
   figure: BuildingBlockFigure;
   onSelect: SelectionAction;
-  updateBuildingBlock: UpdateBuildingBlock;
+  updateFigure: UpdateFigure;
 };
 export const UiBuildingBlockFigure = ({
   figure,
   onSelect,
-  updateBuildingBlock,
+  updateFigure,
 }: Props) => {
   const [textEdit, setTextEdit] = useState<boolean>(false);
   const [posInfo, setPosInfo] = useState<any>({});
@@ -29,17 +29,43 @@ export const UiBuildingBlockFigure = ({
   const fontSize = 20;
   const offset = height / fontSize;
   const color = textEdit ? "green" : "red";
+
+  const shapeRef = React.useRef();
+  const trRef = React.useRef<any>();
+
+  const resizing = figure.resizing;
+  React.useEffect(() => {
+    if (resizing) {
+      // we need to attach transformer manually
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [resizing]);
+
   return (
     <>
+      {figure.resizing && (
+        <Transformer
+          rotateEnabled={false}
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            // limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
+      )}
       <Group
         draggable={true}
         onDragEnd={(e) => {
           const pos = getElementPos(e);
-          updateBuildingBlock.updatePosition(figure, pos.x, pos.y);
+          updateFigure.updatePosition(figure, pos.x, pos.y);
         }}
         onDragMove={(e) => {
           const pos = getElementPos(e);
-          updateBuildingBlock.updatePosition(figure, pos.x, pos.y);
+          updateFigure.updatePosition(figure, pos.x, pos.y);
         }}
         onClick={(e) => {
           onSelect(figure, "BLOCK");
@@ -54,7 +80,7 @@ export const UiBuildingBlockFigure = ({
                 }
               }}
               onChange={(e) => {
-                updateBuildingBlock.updateName(figure, e.target.value);
+                updateFigure.updateBuildingBlockName(figure, e.target.value);
               }}
               ref={(ref) => ref?.focus()}
               style={{
@@ -84,6 +110,22 @@ export const UiBuildingBlockFigure = ({
               width: width + "px",
             });
           }}
+          onTransformEnd={() => {
+            console.log("END");
+            const node: any = shapeRef.current;
+            const scaleX = node!.scaleX();
+            const scaleY = node!.scaleY();
+
+            // we will reset it back
+            node.scaleX(1);
+            node.scaleY(1);
+            updateFigure.updateShape(
+              figure,
+              Math.max(5, node.width() * scaleX),
+              Math.max(node.height() * scaleY)
+            );
+          }}
+          ref={shapeRef as any}
           draggable
           x={figure.x}
           y={figure.y}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BuildingBlockFigure } from "../../../domain-editor/models/editor-core/BuildingBlockFigure";
+import { BuildingBlockFigure } from "../../../domain-editor/models/editor-core/building-block-figure/BuildingBlockFigure";
 
 type Props = {
   figure: BuildingBlockFigure;

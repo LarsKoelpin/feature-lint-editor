@@ -1,20 +1,20 @@
 import * as React from "react";
-import { Group, Rect, Text } from "react-konva";
+import { Group, Rect, Text, Transformer } from "react-konva";
 import { FeatureTypeFigure } from "../../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
 import { getElementPos } from "../getPos";
-import { UpdateFeatureType } from "../../../domain-editor/interactions/update-featuretype";
 import { Html } from "react-konva-utils";
 import { useRef, useState } from "react";
 import { mdiCog } from "@mdi/js";
 import Icon from "@mdi/react";
 import { SelectionAction } from "../../../domain-editor/interactions/building-block-selection";
+import { UpdateFigure } from "../../../domain-editor/interactions/update-figure";
 
 type Props = {
   figure: FeatureTypeFigure;
   onSelect: SelectionAction;
-  updateFeatureType: UpdateFeatureType;
+  updateFigure: UpdateFigure;
 };
-export const UiFeature = ({ figure, updateFeatureType, onSelect }: Props) => {
+export const UiFeature = ({ figure, updateFigure, onSelect }: Props) => {
   const [textEdit, setTextEdit] = useState<boolean>(false);
   const [posInfo, setPosInfo] = useState<any>({});
   const textNode = useRef<any>();
@@ -23,13 +23,39 @@ export const UiFeature = ({ figure, updateFeatureType, onSelect }: Props) => {
   const width = figure.width;
 
   const iconSize = 42;
+
+  const shapeRef = React.useRef();
+  const trRef = React.useRef<any>();
+
+  const resizing = figure.resizing;
+  React.useEffect(() => {
+    if (resizing) {
+      // we need to attach transformer manually
+      trRef.current.nodes([shapeRef.current]);
+      trRef.current.getLayer().batchDraw();
+    }
+  }, [resizing]);
+
   return (
     <>
+      {figure.resizing && (
+        <Transformer
+          rotateEnabled={false}
+          ref={trRef}
+          boundBoxFunc={(oldBox, newBox) => {
+            // limit resize
+            if (newBox.width < 5 || newBox.height < 5) {
+              return oldBox;
+            }
+            return newBox;
+          }}
+        />
+      )}
       <Group
         draggable={true}
         onDragMove={(e) => {
           const pos = getElementPos(e);
-          updateFeatureType.updatePosition(figure, pos.x, pos.y);
+          updateFigure.updatePosition(figure, pos.x, pos.y);
         }}
       >
         {textEdit ? (
@@ -41,7 +67,7 @@ export const UiFeature = ({ figure, updateFeatureType, onSelect }: Props) => {
                 }
               }}
               onChange={(e) => {
-                updateFeatureType.updateName(figure, e.target.value);
+                updateFigure.updateFeatureTypeName(figure, e.target.value);
               }}
               ref={(ref) => ref?.focus()}
               style={{
@@ -86,7 +112,24 @@ export const UiFeature = ({ figure, updateFeatureType, onSelect }: Props) => {
               width: width + "px",
             });
           }}
+          onTransformEnd={() => {
+            console.log("END FEAT TRANS");
+            const node: any = shapeRef.current;
+            const scaleX = node!.scaleX();
+            const scaleY = node!.scaleY();
+
+            // we will reset it back
+            node.scaleX(1);
+            node.scaleY(1);
+            updateFigure.updateShape(
+              figure,
+              Math.max(5, node.width() * scaleX),
+              Math.max(node.height() * scaleY)
+            );
+          }}
+          ref={shapeRef as any}
           draggable
+          onClick={() => onSelect(figure, "BLOCK")}
           x={figure.x}
           y={figure.y}
           height={height}

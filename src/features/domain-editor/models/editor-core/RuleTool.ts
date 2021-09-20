@@ -1,6 +1,6 @@
 import vod from "@renke/vod";
 import * as zod from "zod";
-import { BuildingBlockFigureSchema } from "./BuildingBlockFigure";
+import { BuildingBlockFigureSchema } from "./building-block-figure/BuildingBlockFigure";
 import { Tool } from "./Tool";
 
 export const RuleToolSchema = vod(

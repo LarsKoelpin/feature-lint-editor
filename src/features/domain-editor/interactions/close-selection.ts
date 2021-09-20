@@ -1,5 +1,5 @@
 import { Tool } from "../models/editor-core/Tool";
-import { BuildingBlockFigure } from "../models/editor-core/BuildingBlockFigure";
+import { BuildingBlockFigure } from "../models/editor-core/building-block-figure/BuildingBlockFigure";
 
 type Listener = {
   tool: () => Tool;

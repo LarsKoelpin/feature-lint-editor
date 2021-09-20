@@ -8,7 +8,6 @@ import { useDrawingState } from "../controllers/useDrawingState";
 
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
 import { createQueryFigures } from "../../domain-editor/interactions/query-figures";
-import { createUpdateBuildingBlock } from "../../domain-editor/interactions/update-buildingblock";
 import { createPlaceDependencyRule } from "../../domain-editor/interactions/place-dependency-rule";
 import { createSelectBuildingBlockForRule } from "../../domain-editor/interactions/building-block-selection";
 import { createPlaceBuildingBlock } from "../../domain-editor/interactions/place-buildingblock";
@@ -16,7 +15,7 @@ import { Details } from "../components/Details";
 import { createCloseSelection } from "../../domain-editor/interactions/close-selection";
 import { createConvertToFeatureLint } from "../../domain-converter/interactions/convertToFeatureLintJson";
 import { TopBar } from "../components/hud/TopBar";
-import { createUpdateFeatureType } from "../../domain-editor/interactions/update-featuretype";
+import { createUpdateFigure } from "../../domain-editor/interactions/update-figure";
 
 type Props = {};
 export const EditorPlane = (props: Props) => {
@@ -47,27 +46,26 @@ export const EditorPlane = (props: Props) => {
     tool: () => tool.currentTool,
     onDetails: (d) => tool.setDetails(d?.id || null),
   });
+
+  const updateFigure = createUpdateFigure({
+    onBuildingBlocks: figures.setBuildingBlockFigures,
+    featureTypes: () => figures.featureTypeFigures,
+    buildingBlocks: () => figures.buildingBlockFigures,
+    onFeatureTypes: figures.setFeatureTypeFigures,
+  });
+
   const toolBuildingBlockInteraction = createSelectBuildingBlockForRule({
     onToolUpdated: (t: Tool) => tool.setCurrentTool(t),
     onSelectedFigure: (bb) => tool.setDetails(bb?.id || null),
     placeDependencyRule,
     tool: () => tool.currentTool,
+    onSpawnTransform: (f) => updateFigure.resizing(true, f),
   });
 
   const queryBuildingBlocks = createQueryFigures(
     figures.buildingBlockFigures,
     figures.featureTypeFigures
   );
-
-  const updateBuildingBlock = createUpdateBuildingBlock(
-    { onBuildingBlocks: figures.setBuildingBlockFigures },
-    figures.buildingBlockFigures
-  );
-
-  const updateFeatureType = createUpdateFeatureType({
-    onFeatures: (x) => figures.setFeatureTypeFigures(x),
-    featureTypes: () => figures.featureTypeFigures,
-  });
 
   const convertToJson = createConvertToFeatureLint({
     query: queryBuildingBlocks,
@@ -81,8 +79,7 @@ export const EditorPlane = (props: Props) => {
       <TopBar convertToJson={convertToJson} />
       <ToolBar tool={tool} selectTool={selectToolInteraction} />
       <DrawingPlane
-        updateBuildingBlock={updateBuildingBlock}
-        updateFeatureType={updateFeatureType}
+        updateFigure={updateFigure}
         queryBuildingBlocks={queryBuildingBlocks}
         placeFeature={placeFeature}
         placeBuildingBlock={placeBuildingBlock}

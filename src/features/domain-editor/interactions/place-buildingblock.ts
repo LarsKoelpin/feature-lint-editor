@@ -1,7 +1,7 @@
 import {
   BuildingBlockFigure,
   NewBuildingBlockFigureId,
-} from "../models/editor-core/BuildingBlockFigure";
+} from "../models/editor-core/building-block-figure/BuildingBlockFigure";
 
 type Listener = {
   buildingBlocks: () => BuildingBlockFigure[];
@@ -18,6 +18,7 @@ export const createPlaceBuildingBlock =
       x: x,
       y: y,
       bbName: "unamed",
+      resizing: false,
     });
     const updatedBbs = [...buildingBlocks(), created];
     onBuildingBlocksUpdated(updatedBbs);

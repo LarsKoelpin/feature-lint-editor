@@ -2,7 +2,7 @@ import * as React from "react";
 import { Arrow } from "react-konva";
 import { DependencyRuleFigure } from "../../../domain-editor/models/editor-core/dependency-rule/DependencyRuleFigure";
 import { QueryFigures } from "../../../domain-editor/interactions/query-figures";
-import { BuildingBlockFigureId } from "../../../domain-editor/models/editor-core/BuildingBlockFigure";
+import { BuildingBlockFigureId } from "../../../domain-editor/models/editor-core/building-block-figure/BuildingBlockFigure";
 
 type Props = {
   rule: DependencyRuleFigure;

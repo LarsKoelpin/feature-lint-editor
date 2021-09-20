@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
-import { BuildingBlockFigure } from "../../domain-editor/models/editor-core/BuildingBlockFigure";
+import { BuildingBlockFigure } from "../../domain-editor/models/editor-core/building-block-figure/BuildingBlockFigure";
 import { DependencyRuleFigure } from "../../domain-editor/models/editor-core/dependency-rule/DependencyRuleFigure";
 
 export const useDrawingState = () => {

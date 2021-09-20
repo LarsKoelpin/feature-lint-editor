@@ -1,4 +1,4 @@
-import { BuildingBlockFigure } from "../models/editor-core/BuildingBlockFigure";
+import { BuildingBlockFigure } from "../models/editor-core/building-block-figure/BuildingBlockFigure";
 import { DependencyRuleFigure } from "../models/editor-core/dependency-rule/DependencyRuleFigure";
 import { NewDependencyRuleFigureId } from "../models/editor-core/dependency-rule/DependencyRuleFigureId";
 
@@ -20,6 +20,7 @@ export const createPlaceDependencyRule =
     const newRules = [
       ...rules(),
       DependencyRuleFigure({
+        type: "DependencyRuleFigure",
         id: NewDependencyRuleFigureId(),
         from: start.id,
         to: end.id,

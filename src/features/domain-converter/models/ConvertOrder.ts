@@ -1,7 +1,7 @@
 import vod from "@renke/vod";
 import * as zod from "zod";
 import { DependencyRuleFigureSchema } from "../../domain-editor/models/editor-core/dependency-rule/DependencyRuleFigure";
-import { BuildingBlockFigureSchema } from "../../domain-editor/models/editor-core/BuildingBlockFigure";
+import { BuildingBlockFigureSchema } from "../../domain-editor/models/editor-core/building-block-figure/BuildingBlockFigure";
 import { FeatureTypeFigureSchema } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
 
 export const ConvertOrderSchema = vod(

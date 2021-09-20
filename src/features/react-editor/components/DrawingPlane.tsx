@@ -11,33 +11,25 @@ import { UiBuildingBlockFigure } from "./figures/UIBuildingBlockFigure";
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
 import { QueryFigures } from "../../domain-editor/interactions/query-figures";
 import { isWaitingForSecondSelection } from "../../domain-editor/models/editor-core/RuleTool";
-import { UpdateBuildingBlock } from "../../domain-editor/interactions/update-buildingblock";
 import { UiDependencyRule } from "./figures/UIDependencyRule";
 import { PlaceBuildingblock } from "../../domain-editor/interactions/place-buildingblock";
 import styled from "styled-components";
 import { NewFeatureTypeFigureId } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigureId";
-import { UpdateFeatureType } from "../../domain-editor/interactions/update-featuretype";
 import { SelectionAction } from "../../domain-editor/interactions/building-block-selection";
+import { UpdateFigure } from "../../domain-editor/interactions/update-figure";
 
 type Props = {
   tool: ToolState;
   figures: Figures;
   placeFeature: (f: FeatureTypeFigure) => any;
   queryBuildingBlocks: QueryFigures;
-  updateBuildingBlock: UpdateBuildingBlock;
-  updateFeatureType: UpdateFeatureType;
+  updateFigure: UpdateFigure;
   placeBuildingBlock: PlaceBuildingblock;
   onSelectFigure: SelectionAction;
 };
 export const DrawingPlane = (props: Props) => {
-  const {
-    figures,
-    tool,
-    updateBuildingBlock,
-    onSelectFigure,
-    queryBuildingBlocks,
-    updateFeatureType,
-  } = props;
+  const { figures, tool, updateFigure, onSelectFigure, queryBuildingBlocks } =
+    props;
   const size = useWindowSize();
 
   const { currentTool } = tool;
@@ -77,13 +69,13 @@ export const DrawingPlane = (props: Props) => {
               onSelect={onSelectFigure}
               key={x.id}
               figure={x}
-              updateFeatureType={updateFeatureType}
+              updateFigure={updateFigure}
             />
           ))}
           {figures.buildingBlockFigures.map((x) => (
             <UiBuildingBlockFigure
               key={x.id}
-              updateBuildingBlock={updateBuildingBlock}
+              updateFigure={updateFigure}
               figure={x}
               onSelect={onSelectFigure}
             />
@@ -130,7 +122,8 @@ const clickListener = (
           width: 500,
           x: screenPos.x,
           y: screenPos.y,
-          type: "FeatureFigure",
+          type: "FeatureTypeFigure",
+          resizing: false,
         })
       );
       break;
