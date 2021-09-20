@@ -9,7 +9,6 @@ import {
   intersectRect,
   toGeometryRect,
 } from "../../domain-editor/models/editor-core/figure/geometry";
-import { all } from "ramda";
 import { QueryFigures } from "../../domain-editor/interactions/query-figures";
 import { isBuildingBlock } from "../../domain-editor/models/editor-core/figure/Figure";
 

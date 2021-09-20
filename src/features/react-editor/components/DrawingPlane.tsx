@@ -9,7 +9,6 @@ import { getPos } from "./getPos";
 import { UiFeature } from "./figures/UIFeature";
 import { UiBuildingBlockFigure } from "./figures/UIBuildingBlockFigure";
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
-import { BuildingBlockFigure } from "../../domain-editor/models/editor-core/BuildingBlockFigure";
 import { QueryFigures } from "../../domain-editor/interactions/query-figures";
 import { isWaitingForSecondSelection } from "../../domain-editor/models/editor-core/RuleTool";
 import { UpdateBuildingBlock } from "../../domain-editor/interactions/update-buildingblock";

@@ -14,11 +14,9 @@ import { createSelectBuildingBlockForRule } from "../../domain-editor/interactio
 import { createPlaceBuildingBlock } from "../../domain-editor/interactions/place-buildingblock";
 import { Details } from "../components/Details";
 import { createCloseSelection } from "../../domain-editor/interactions/close-selection";
-import { BuildingBlockFigureId } from "../../domain-editor/models/editor-core/BuildingBlockFigure";
 import { createConvertToFeatureLint } from "../../domain-converter/interactions/convertToFeatureLintJson";
 import { TopBar } from "../components/hud/TopBar";
 import { createUpdateFeatureType } from "../../domain-editor/interactions/update-featuretype";
-import { SaveDialog } from "../components/hud/save-dialog/SaveDialog";
 
 type Props = {};
 export const EditorPlane = (props: Props) => {
