@@ -29,7 +29,13 @@ export const createQueryFigures = (
       return null;
     },
     buildingBlockById: (id: BuildingBlockFigureId) => {
-      return bb.find((b) => b.id === id);
+      const found = bb.find((b) => b.id === id);
+      if (!found) {
+        throw new Error(
+          "Did not found BB with id " + id + " but is expected in state"
+        );
+      }
+      return found;
     },
   };
 };

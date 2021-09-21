@@ -2,8 +2,12 @@ import * as React from "react";
 import { Arrow } from "react-konva";
 import { DependencyRuleFigure } from "../../../domain-editor/models/editor-core/dependency-rule/DependencyRuleFigure";
 import { QueryFigures } from "../../../domain-editor/interactions/query-figures";
-import { BuildingBlockFigureId } from "../../../domain-editor/models/editor-core/building-block-figure/BuildingBlockFigure";
+import {
+  BuildingBlockFigure,
+  BuildingBlockFigureId,
+} from "../../../domain-editor/models/editor-core/building-block-figure/BuildingBlockFigure";
 import { SelectionAction } from "../../../domain-editor/interactions/tool-interactions";
+import { getHorizontalAnchor, getVerticalAnchor } from "./getAnchor";
 
 type Props = {
   rule: DependencyRuleFigure;
@@ -15,18 +19,24 @@ export const UiDependencyRule = ({
   rule,
   select,
 }: Props) => {
-  const from = queryBuildingBlocks.buildingBlockById(
+  const from: BuildingBlockFigure = queryBuildingBlocks.buildingBlockById(
     BuildingBlockFigureId(rule.from)
   );
-  const to = queryBuildingBlocks.buildingBlockById(
+  const to: BuildingBlockFigure = queryBuildingBlocks.buildingBlockById(
     BuildingBlockFigureId(rule.to)
   );
+
+  const startX = getHorizontalAnchor(from, to);
+  const startY = getVerticalAnchor(from, to);
+
+  const endX = getHorizontalAnchor(to, from);
+  const endY = getVerticalAnchor(to, from);
 
   if (to && from) {
     return (
       <Arrow
         onClick={() => select(rule, "ICON")}
-        points={[from.x, from.y, to.x, to.y]}
+        points={[startX, startY, endX, endY]}
         stroke={"red"}
         strokeWidth={5}
       />

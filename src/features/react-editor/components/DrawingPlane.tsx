@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Arrow, Layer, Rect, Stage } from "react-konva";
+import { Layer, Rect, Stage } from "react-konva";
 import { useWindowSize } from "./useWindowSize";
 import { Figures } from "../controllers/useDrawingState";
 
@@ -17,6 +17,7 @@ import styled from "styled-components";
 import { NewFeatureTypeFigureId } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigureId";
 import { UpdateFigure } from "../../domain-editor/interactions/update-figure";
 import { SelectionAction } from "../../domain-editor/interactions/tool-interactions";
+import { UiRuleGhost } from "./figures/UIRuleGhost";
 
 type Props = {
   tool: ToolState;
@@ -81,17 +82,7 @@ export const DrawingPlane = (props: Props) => {
             />
           ))}
           {isWaitingForSecondSelection(currentTool) && tool.ruleGhost ? (
-            <Arrow
-              listening={false}
-              points={[
-                currentTool.from!.x,
-                currentTool.from!.y,
-                tool.ruleGhost?.endX,
-                tool.ruleGhost?.endY,
-              ]}
-              strokeWidth={2}
-              stroke={"red"}
-            />
+            <UiRuleGhost ruleTool={currentTool} toolState={tool} />
           ) : null}
           {figures.rules.map((rule) => {
             return (
