@@ -6,8 +6,8 @@ import { getElementPos } from "../getPos";
 import { useRef, useState } from "react";
 import Icon from "@mdi/react";
 import { mdiCog } from "@mdi/js";
-import { SelectionAction } from "../../../domain-editor/interactions/building-block-selection";
 import { UpdateFigure } from "../../../domain-editor/interactions/update-figure";
+import { SelectionAction } from "../../../domain-editor/interactions/tool-interactions";
 
 type Props = {
   figure: BuildingBlockFigure;
@@ -77,6 +77,19 @@ export const UiBuildingBlockFigure = ({
               onKeyDown={(e) => {
                 if (e.keyCode === 13) {
                   setTextEdit(false);
+                  console.log("ENTER");
+                  const node: any = shapeRef.current;
+                  const scaleX = node!.scaleX();
+                  const scaleY = node!.scaleY();
+
+                  // we will reset it back
+                  node.scaleX(1);
+                  node.scaleY(1);
+                  updateFigure.updateShape(
+                    figure,
+                    Math.max(5, node.width() * scaleX),
+                    Math.max(node.height() * scaleY)
+                  );
                 }
               }}
               onChange={(e) => {

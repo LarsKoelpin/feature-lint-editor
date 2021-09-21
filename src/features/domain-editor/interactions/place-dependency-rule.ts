@@ -17,6 +17,14 @@ export const createPlaceDependencyRule =
       return;
     }
 
+    const findRule = rules().findIndex(
+      (r) => r.from === startBB.id && r.to === endBB.id
+    );
+    if (findRule !== -1) {
+      console.log("Rule does exist already");
+      return;
+    }
+
     const newRules = [
       ...rules(),
       DependencyRuleFigure({

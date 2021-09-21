@@ -24,9 +24,11 @@ export const createSelectBuildingBlockForRule =
   (bb: Figure | null, source: Source) => {
     const currentTool = tool();
 
-    if (currentTool.type === "SELECTION" && source === "BLOCK" && bb !== null) {
+    const isResizer =
+      currentTool.type === "SELECTION" && source === "BLOCK" && bb !== null;
+
+    if (isResizer) {
       onSpawnTransform(bb);
-      console.log("SPAWN XD");
       return;
     }
 
@@ -45,7 +47,7 @@ export const createSelectBuildingBlockForRule =
         if (currentTool.from === null || bb === null || !isBuildingBlock(bb)) {
           throw new Error(
             "Invalid state. Second Place Rule does only work on Valid BBs, but was placed on " +
-              bb
+              JSON.stringify(bb)
           );
         }
         placeDependencyRule(BuildingBlockFigure(currentTool.from), bb);

@@ -15,8 +15,8 @@ import { UiDependencyRule } from "./figures/UIDependencyRule";
 import { PlaceBuildingblock } from "../../domain-editor/interactions/place-buildingblock";
 import styled from "styled-components";
 import { NewFeatureTypeFigureId } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigureId";
-import { SelectionAction } from "../../domain-editor/interactions/building-block-selection";
 import { UpdateFigure } from "../../domain-editor/interactions/update-figure";
+import { SelectionAction } from "../../domain-editor/interactions/tool-interactions";
 
 type Props = {
   tool: ToolState;
@@ -96,6 +96,7 @@ export const DrawingPlane = (props: Props) => {
           {figures.rules.map((rule) => {
             return (
               <UiDependencyRule
+                select={onSelectFigure}
                 key={rule.id}
                 queryBuildingBlocks={queryBuildingBlocks}
                 rule={rule}

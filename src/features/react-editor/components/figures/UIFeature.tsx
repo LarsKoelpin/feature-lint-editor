@@ -6,8 +6,8 @@ import { Html } from "react-konva-utils";
 import { useRef, useState } from "react";
 import { mdiCog } from "@mdi/js";
 import Icon from "@mdi/react";
-import { SelectionAction } from "../../../domain-editor/interactions/building-block-selection";
 import { UpdateFigure } from "../../../domain-editor/interactions/update-figure";
+import { SelectionAction } from "../../../domain-editor/interactions/tool-interactions";
 
 type Props = {
   figure: FeatureTypeFigure;
@@ -64,6 +64,19 @@ export const UiFeature = ({ figure, updateFigure, onSelect }: Props) => {
               onKeyDown={(e) => {
                 if (e.keyCode === 13) {
                   setTextEdit(false);
+                  console.log("END FEAT TRANS");
+                  const node: any = shapeRef.current;
+                  const scaleX = node!.scaleX();
+                  const scaleY = node!.scaleY();
+
+                  // we will reset it back
+                  node.scaleX(1);
+                  node.scaleY(1);
+                  updateFigure.updateShape(
+                    figure,
+                    Math.max(5, node.width() * scaleX),
+                    Math.max(node.height() * scaleY)
+                  );
                 }
               }}
               onChange={(e) => {

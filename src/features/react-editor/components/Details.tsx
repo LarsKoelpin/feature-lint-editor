@@ -23,7 +23,17 @@ export const Details = ({ figureId, query, onClose }: Props) => {
           case "BuildingBlockFigure":
             return <BuildingBlockDetails figure={figure} onClose={onClose} />;
           case "FeatureTypeFigure":
-            return <div>Hello</div>;
+            return (
+              <div>
+                Hello<button onClick={onClose}>Close</button>
+              </div>
+            );
+          case "DependencyRuleFigure":
+            return (
+              <div>
+                Dep Figure <button onClick={onClose}>Close</button>
+              </div>
+            );
         }
       })()}
     </DetailsContainer>

@@ -9,13 +9,13 @@ import { useDrawingState } from "../controllers/useDrawingState";
 import { FeatureTypeFigure } from "../../domain-editor/models/editor-core/feature-type-figure/FeatureTypeFigure";
 import { createQueryFigures } from "../../domain-editor/interactions/query-figures";
 import { createPlaceDependencyRule } from "../../domain-editor/interactions/place-dependency-rule";
-import { createSelectBuildingBlockForRule } from "../../domain-editor/interactions/building-block-selection";
 import { createPlaceBuildingBlock } from "../../domain-editor/interactions/place-buildingblock";
 import { Details } from "../components/Details";
 import { createCloseSelection } from "../../domain-editor/interactions/close-selection";
 import { createConvertToFeatureLint } from "../../domain-converter/interactions/convertToFeatureLintJson";
 import { TopBar } from "../components/hud/TopBar";
 import { createUpdateFigure } from "../../domain-editor/interactions/update-figure";
+import { createSelectBuildingBlockForRule } from "../../domain-editor/interactions/tool-interactions";
 
 type Props = {};
 export const EditorPlane = (props: Props) => {
@@ -64,7 +64,8 @@ export const EditorPlane = (props: Props) => {
 
   const queryBuildingBlocks = createQueryFigures(
     figures.buildingBlockFigures,
-    figures.featureTypeFigures
+    figures.featureTypeFigures,
+    figures.rules
   );
 
   const convertToJson = createConvertToFeatureLint({
