@@ -145,6 +145,9 @@ export const UiBuildingBlockFigure = ({
           width={width}
           height={height}
           stroke={color}
+          dashEnabled={true}
+          dash={[1, 1]}
+          strokeWidth={3}
         />
         <Text
           preventDefault={true}

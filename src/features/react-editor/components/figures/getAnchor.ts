@@ -13,8 +13,9 @@ export const getHorizontalAnchorByNumber = (
   const midStart = startX + startWidth / 2;
 
   const endLeft = endX;
+  const endCenter = endX + endWidth / 2;
 
-  if (Math.abs(midStart - endX) < startWidth / 2) {
+  if (Math.abs(midStart - endCenter) < startWidth / 2) {
     return midStart;
   }
 
