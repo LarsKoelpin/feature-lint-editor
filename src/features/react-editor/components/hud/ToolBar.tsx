@@ -31,7 +31,7 @@ export const ToolBar = ({ tool, selectTool }: Props) => {
         onClick={() => selectTool(Tool({ type: "PLACE_FEATURE" }))}
       >
         <Icon path={mdiHexagon} size={ICON_SIZE} color="grey" />
-        Feature
+        Feature Type
       </MenuEntry>
       <MenuEntry
         active={tool.currentTool.type === "PLACE_BUILDING_BLOCK"}
