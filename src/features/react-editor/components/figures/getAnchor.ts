@@ -13,9 +13,8 @@ export const getHorizontalAnchorByNumber = (
   const midStart = startX + startWidth / 2;
 
   const endLeft = endX;
-  const midEnd = endX + endWidth / 2;
 
-  if (Math.abs(midStart - midEnd) < startWidth) {
+  if (Math.abs(midStart - endX) < startWidth / 2) {
     return midStart;
   }
 
@@ -43,10 +42,9 @@ export const getVerticalAnchorByNumber = (
   const startBot = startY + startHeight;
   const midStart = startY + startHeight / 2;
 
-  const endBot = endY + endheight;
-  const midEnd = endY - endheight / 2;
+  const endBot = endY - endheight;
 
-  if (Math.abs(midStart - midEnd) < startHeight) {
+  if (Math.abs(midStart - endY) < startHeight) {
     return midStart;
   }
 

@@ -35,10 +35,12 @@ export const UiDependencyRule = ({
   if (to && from) {
     return (
       <Arrow
+        dashEnabled={true}
+        dash={[10, 5]}
         onClick={() => select(rule, "ICON")}
         points={[startX, startY, endX, endY]}
-        stroke={"red"}
-        strokeWidth={5}
+        stroke={"black"}
+        strokeWidth={2}
       />
     );
   }

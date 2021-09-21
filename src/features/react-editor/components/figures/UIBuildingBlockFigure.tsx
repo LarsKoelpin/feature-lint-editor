@@ -28,7 +28,7 @@ export const UiBuildingBlockFigure = ({
   const iconSize = 42;
   const fontSize = 20;
   const offset = height / fontSize;
-  const color = textEdit ? "green" : "red";
+  const color = textEdit ? "green" : "black";
 
   const shapeRef = React.useRef();
   const trRef = React.useRef<any>();

@@ -35,7 +35,7 @@ export const UiRuleGhost = ({ toolState, ruleTool }: Props) => {
         toolState.ruleGhost!.endY,
       ]}
       strokeWidth={2}
-      stroke={"red"}
+      stroke={"black"}
     />
   );
 };
