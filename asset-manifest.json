@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.js": "/feature-lint-editor/static/js/main.8be10e98.chunk.js",
+    "main.js.map": "/feature-lint-editor/static/js/main.8be10e98.chunk.js.map",
+    "runtime-main.js": "/feature-lint-editor/static/js/runtime-main.a4d75e6a.js",
+    "runtime-main.js.map": "/feature-lint-editor/static/js/runtime-main.a4d75e6a.js.map",
+    "static/js/2.a7cde9e0.chunk.js": "/feature-lint-editor/static/js/2.a7cde9e0.chunk.js",
+    "static/js/2.a7cde9e0.chunk.js.map": "/feature-lint-editor/static/js/2.a7cde9e0.chunk.js.map",
+    "static/js/3.a9fe94bf.chunk.js": "/feature-lint-editor/static/js/3.a9fe94bf.chunk.js",
+    "static/js/3.a9fe94bf.chunk.js.map": "/feature-lint-editor/static/js/3.a9fe94bf.chunk.js.map",
+    "index.html": "/feature-lint-editor/index.html",
+    "static/js/2.a7cde9e0.chunk.js.LICENSE.txt": "/feature-lint-editor/static/js/2.a7cde9e0.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a4d75e6a.js",
+    "static/js/2.a7cde9e0.chunk.js",
+    "static/js/main.8be10e98.chunk.js"
+  ]
+}
